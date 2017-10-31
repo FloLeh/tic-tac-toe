@@ -1,21 +1,23 @@
 class Game
+  attr_reader :board, :computer, :human
+
   def initialize
     @board = ["0", "1", "2", "3", "4", "5", "6", "7", "8"]
-    @com = "X" # the computer's marker
-    @hum = "O" # the user's marker
+    @computer = "X"
+    @human = "O"
   end
 
   def start_game
     # start by printing the board
-    puts " #{@board[0]} | #{@board[1]} | #{@board[2]} \n===+===+===\n #{@board[3]} | #{@board[4]} | #{@board[5]} \n===+===+===\n #{@board[6]} | #{@board[7]} | #{@board[8]} \n"
+    puts " #{board[0]} | #{board[1]} | #{board[2]} \n===+===+===\n #{board[3]} | #{board[4]} | #{board[5]} \n===+===+===\n #{board[6]} | #{board[7]} | #{board[8]} \n"
     puts "Enter [0-8]:"
     # loop through until the game was won or tied
-    until game_is_over(@board) || tie(@board)
+    until game_is_over(board) || tie(board)
       get_human_spot
-      if !game_is_over(@board) && !tie(@board)
+      if !game_is_over(board) && !tie(board)
         eval_board
       end
-      puts " #{@board[0]} | #{@board[1]} | #{@board[2]} \n===+===+===\n #{@board[3]} | #{@board[4]} | #{@board[5]} \n===+===+===\n #{@board[6]} | #{@board[7]} | #{@board[8]} \n"
+      puts " #{board[0]} | #{board[1]} | #{board[2]} \n===+===+===\n #{board[3]} | #{board[4]} | #{board[5]} \n===+===+===\n #{board[6]} | #{board[7]} | #{board[8]} \n"
     end
     puts "Game over"
   end
@@ -24,8 +26,8 @@ class Game
     spot = nil
     until spot
       spot = gets.chomp.to_i
-      if @board[spot] != "X" && @board[spot] != "O"
-        @board[spot] = @hum
+      if board[spot] != "X" && board[spot] != "O"
+        board[spot] = human
       else
         spot = nil
       end
@@ -35,13 +37,13 @@ class Game
   def eval_board
     spot = nil
     until spot
-      if @board[4] == "4"
+      if board[4] == "4"
         spot = 4
-        @board[spot] = @com
+        board[spot] = computer
       else
-        spot = get_best_move(@board, @com)
-        if @board[spot] != "X" && @board[spot] != "O"
-          @board[spot] = @com
+        spot = get_best_move(board, computer)
+        if board[spot] != "X" && board[spot] != "O"
+          board[spot] = computer
         else
           spot = nil
         end
@@ -58,13 +60,13 @@ class Game
       end
     end
     available_spaces.each do |as|
-      board[as.to_i] = @com
+      board[as.to_i] = computer
       if game_is_over(board)
         best_move = as.to_i
         board[as.to_i] = as
         return best_move
       else
-        board[as.to_i] = @hum
+        board[as.to_i] = human
         if game_is_over(board)
           best_move = as.to_i
           board[as.to_i] = as
