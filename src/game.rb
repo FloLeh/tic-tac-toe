@@ -87,6 +87,3 @@ class Game
     available_spaces[n].to_i
   end
 end
-
-game = Game.new
-game.start_game
