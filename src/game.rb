@@ -1,6 +1,9 @@
-require_relative 'board.rb'
+require_relative 'board'
+require_relative 'board_spot_management'
 
 class Game
+  include BoardSpotManagement
+
   attr_reader :board
 
   PLAYER_1 = 'X'
@@ -27,7 +30,7 @@ class Game
     spot = nil
     until spot
       spot = gets.chomp.to_i
-      if board_spots[spot] != 'X' && board_spots[spot] != 'O'
+      if not_chosen_spot?(spot)
         board.choose_spot(spot, PLAYER_2)
       else
         spot = nil
@@ -43,7 +46,7 @@ class Game
         board.choose_spot(spot, PLAYER_1)
       else
         spot = get_best_move(PLAYER_1)
-        if board_spots[spot] != 'X' && board_spots[spot] != 'O'
+        if not_chosen_spot?(spot)
           board.choose_spot(spot, PLAYER_1)
         else
           spot = nil
@@ -82,27 +85,6 @@ class Game
 
     n = rand(0..available_spaces.count)
     available_spaces[n].to_i
-  end
-
-  private
-
-  def game_over?
-    [board_spots[0], board_spots[1], board_spots[2]].uniq.size == 1 ||
-    [board_spots[3], board_spots[4], board_spots[5]].uniq.size == 1 ||
-    [board_spots[6], board_spots[7], board_spots[8]].uniq.size == 1 ||
-    [board_spots[0], board_spots[3], board_spots[6]].uniq.size == 1 ||
-    [board_spots[1], board_spots[4], board_spots[7]].uniq.size == 1 ||
-    [board_spots[2], board_spots[5], board_spots[8]].uniq.size == 1 ||
-    [board_spots[0], board_spots[4], board_spots[8]].uniq.size == 1 ||
-    [board_spots[2], board_spots[4], board_spots[6]].uniq.size == 1
-  end
-
-  def tie?
-    board_spots.all? { |spot| spot == 'X' || spot == 'O' }
-  end
-
-  def board_spots
-    board.spots
   end
 end
 
