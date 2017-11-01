@@ -14,13 +14,13 @@ class Game
   end
 
   def start_game
-    puts " #{board_spots[0]} | #{board_spots[1]} | #{board_spots[2]} \n===+===+===\n #{board_spots[3]} | #{board_spots[4]} | #{board_spots[5]} \n===+===+===\n #{board_spots[6]} | #{board_spots[7]} | #{board_spots[8]} \n"
+    print_current_board_state
     puts "\nEnter [0-8]:\n"
 
     until game_over? || tie?
       choose_player_spot
       eval_board if !game_over? && !tie?
-      puts " #{board_spots[0]} | #{board_spots[1]} | #{board_spots[2]} \n===+===+===\n #{board_spots[3]} | #{board_spots[4]} | #{board_spots[5]} \n===+===+===\n #{board_spots[6]} | #{board_spots[7]} | #{board_spots[8]} \n"
+      print_current_board_state
     end
 
     puts "\nGame over"

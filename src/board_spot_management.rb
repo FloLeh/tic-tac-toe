@@ -18,6 +18,10 @@ module BoardSpotManagement
     board_spots[spot] != 'X' && board_spots[spot] != 'O'
   end
 
+  def print_current_board_state
+    puts " #{board_spots[0]} | #{board_spots[1]} | #{board_spots[2]} \n===+===+===\n #{board_spots[3]} | #{board_spots[4]} | #{board_spots[5]} \n===+===+===\n #{board_spots[6]} | #{board_spots[7]} | #{board_spots[8]} \n"
+  end
+
   private
 
   def board_spots
