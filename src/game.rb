@@ -34,8 +34,8 @@ class Game
 
   def computer_vs_computer_game
     until game_over? || tie?
-      eval_board(PLAYER_1)
-      eval_board(PLAYER_2) if !game_over? && !tie?
+      choose_computer_spot(PLAYER_1)
+      choose_computer_spot(PLAYER_2) if !game_over? && !tie?
       print_current_board_state
     end
   end
@@ -51,7 +51,7 @@ class Game
   def computer_vs_player_game
     until game_over? || tie?
       choose_player_spot(PLAYER_1)
-      eval_board(PLAYER_2) if !game_over? && !tie?
+      choose_computer_spot(PLAYER_2) if !game_over? && !tie?
       print_current_board_state
     end
   end
@@ -61,7 +61,7 @@ class Game
     board.choose_spot(spot, player)
   end
 
-  def eval_board(player)
+  def choose_computer_spot(player)
     spot = nil
     until spot
       if board_spots[4] == '4'
