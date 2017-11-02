@@ -14,6 +14,10 @@ module BoardSpotManagement
     board_spots.all? { |spot| spot == 'X' || spot == 'O' }
   end
 
+  def chosen_spot?(spot)
+    board_spots[spot] == 'X' || board_spots[spot] == 'O'
+  end
+
   def not_chosen_spot?(spot)
     board_spots[spot] != 'X' && board_spots[spot] != 'O'
   end

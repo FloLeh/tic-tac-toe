@@ -6,8 +6,8 @@ class Game
 
   attr_reader :board
 
-  PLAYER_1 = 'X'
-  PLAYER_2 = 'O'
+  PLAYER_1 = 'O'
+  PLAYER_2 = 'X'
 
   def initialize
     @board = Board.new
@@ -27,15 +27,8 @@ class Game
   end
 
   def choose_player_spot
-    spot = nil
-    until spot
-      spot = gets.chomp.to_i
-      if not_chosen_spot?(spot)
-        board.choose_spot(spot, PLAYER_2)
-      else
-        spot = nil
-      end
-    end
+    spot = get_spot_from_player_1
+    board.choose_spot(spot, PLAYER_1)
   end
 
   def eval_board
@@ -43,11 +36,11 @@ class Game
     until spot
       if board_spots[4] == '4'
         spot = 4
-        board.choose_spot(spot, PLAYER_1)
+        board.choose_spot(spot, PLAYER_2)
       else
-        spot = get_best_move(PLAYER_1)
+        spot = get_best_move(PLAYER_2)
         if not_chosen_spot?(spot)
-          board.choose_spot(spot, PLAYER_1)
+          board.choose_spot(spot, PLAYER_2)
         else
           spot = nil
         end
@@ -85,5 +78,17 @@ class Game
 
     n = rand(0..available_spaces.count)
     available_spaces[n].to_i
+  end
+
+  def get_spot_from_player_1
+    spot = gets.chomp
+    spot = spot.to_i if spot == '0' || spot == '1' || spot == '2' || spot == '3' || spot == '4' || spot == '5' || spot == '6' || spot == '7' || spot == '8'
+
+    while !spot.is_a?(Integer) || chosen_spot?(spot)
+      spot = gets.chomp
+      spot = spot.to_i if spot == '0' || spot == '1' || spot == '2' || spot == '3' || spot == '4' || spot == '5' || spot == '6' || spot == '7' || spot == '8'
+    end
+
+    spot
   end
 end
