@@ -1,6 +1,6 @@
 require_relative 'board'
-require_relative 'board_spot_management'
-require_relative 'input_validator'
+require_relative '../lib/board_spot_management'
+require_relative '../lib/input_validator'
 
 class Game
   include BoardSpotManagement
@@ -16,33 +16,61 @@ class Game
   end
 
   def start_game
+    puts "Let the game begin"
+    game_type = choose_game_type
     print_current_board_state
-    puts "\nEnter [0-8]:\n"
 
-    until game_over? || tie?
-      choose_player_spot
-      eval_board if !game_over? && !tie?
-      print_current_board_state
+    case game_type
+    when :cc
+      computer_vs_computer_game
+    when :pp
+      player_vs_player_game
+    when :cp
+      computer_vs_player_game
     end
 
     puts "\nGame over"
   end
 
-  def choose_player_spot
-    spot = get_spot_from_player
-    board.choose_spot(spot, PLAYER_1)
+  def computer_vs_computer_game
+    until game_over? || tie?
+      eval_board(PLAYER_1)
+      eval_board(PLAYER_2) if !game_over? && !tie?
+      print_current_board_state
+    end
   end
 
-  def eval_board
+  def player_vs_player_game
+    until game_over? || tie?
+      choose_player_spot(PLAYER_1)
+      choose_player_spot(PLAYER_2) if !game_over? && !tie?
+      print_current_board_state
+    end
+  end
+
+  def computer_vs_player_game
+    until game_over? || tie?
+      choose_player_spot(PLAYER_1)
+      eval_board(PLAYER_2) if !game_over? && !tie?
+      print_current_board_state
+    end
+  end
+
+  def choose_player_spot(player)
+    spot = get_spot_from_player
+    board.choose_spot(spot, player)
+  end
+
+  def eval_board(player)
     spot = nil
     until spot
       if board_spots[4] == '4'
         spot = 4
-        board.choose_spot(spot, PLAYER_2)
+        board.choose_spot(spot, player)
       else
-        spot = get_best_move(PLAYER_2)
+        spot = get_best_move(player)
         if not_chosen_spot?(spot)
-          board.choose_spot(spot, PLAYER_2)
+          board.choose_spot(spot, player)
         else
           spot = nil
         end
