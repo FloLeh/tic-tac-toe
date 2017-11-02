@@ -79,12 +79,8 @@ class Game
   end
 
   def get_best_move(next_player, depth = 0, best_score = {})
-    available_spaces = []
     best_move = nil
-
-    board_spots.each do |s|
-      available_spaces << s if s != 'X' && s != 'O'
-    end
+    available_spaces = board_spots.select { |s| s != 'X' && s != 'O' }
 
     available_spaces.each do |as|
       board_spots[as.to_i] = PLAYER_1
