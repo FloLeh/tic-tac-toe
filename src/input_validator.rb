@@ -4,6 +4,7 @@ module InputValidator
     spot = spot.to_i if from_zero_to_eight?(spot)
 
     while !spot.is_a?(Integer) || chosen_spot?(spot)
+      puts "\nYou entered '#{spot}'. Enter [0-8]:\n"
       spot = gets.chomp
       spot = spot.to_i if from_zero_to_eight?(spot)
     end
