@@ -1,8 +1,10 @@
 require_relative 'board'
 require_relative 'board_spot_management'
+require_relative 'input_validator'
 
 class Game
   include BoardSpotManagement
+  include InputValidator
 
   attr_reader :board
 
@@ -27,7 +29,7 @@ class Game
   end
 
   def choose_player_spot
-    spot = get_spot_from_player_1
+    spot = get_spot_from_player
     board.choose_spot(spot, PLAYER_1)
   end
 
@@ -78,17 +80,5 @@ class Game
 
     n = rand(0..available_spaces.count)
     available_spaces[n].to_i
-  end
-
-  def get_spot_from_player_1
-    spot = gets.chomp
-    spot = spot.to_i if spot == '0' || spot == '1' || spot == '2' || spot == '3' || spot == '4' || spot == '5' || spot == '6' || spot == '7' || spot == '8'
-
-    while !spot.is_a?(Integer) || chosen_spot?(spot)
-      spot = gets.chomp
-      spot = spot.to_i if spot == '0' || spot == '1' || spot == '2' || spot == '3' || spot == '4' || spot == '5' || spot == '6' || spot == '7' || spot == '8'
-    end
-
-    spot
   end
 end
