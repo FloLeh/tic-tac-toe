@@ -26,20 +26,8 @@ class Computer
   end
 
   def medium_game(board)
-    spot = nil
-    until spot
-      if board.spots[4] == '4'
-        spot = 4
-        board.choose_spot(spot, mark)
-      else
-        spot = get_spot(board)
-        if board.not_chosen_spot?(spot)
-          board.choose_spot(spot, mark)
-        else
-          spot = nil
-        end
-      end
-    end
+    random_number = rand((1..2))
+    random_number == 1 ? easy_game(board) : hard_game(board)
   end
 
   def hard_game(board)
