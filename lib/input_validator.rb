@@ -4,14 +4,18 @@ module InputValidator
     puts "'cc' for computer vs computer"
     puts "'hh' for human vs human"
     puts "'hc' for human vs computer"
+    puts
     game_type = gets.chomp
+    puts
 
     while wrong_game_type(game_type)
       puts "\nYou entered '#{game_type}'. Choose these game type::\n"
       puts "'cc' for computer vs computer"
       puts "'hh' for human vs human"
       puts "'hc' for computer vs human"
+      puts
       game_type = gets.chomp
+      puts
     end
 
     game_type.to_sym
@@ -23,6 +27,7 @@ module InputValidator
     puts "'1' for medium"
     puts "'2' for hard"
     game_level = gets.chomp
+    puts
 
     while wrong_game_level(game_level)
       puts "\nYou entered '#{game_level}'. Choose these game level::\n"
@@ -30,6 +35,7 @@ module InputValidator
       puts "'1' for medium"
       puts "'2' for hard"
       game_level = gets.chomp
+      puts
     end
 
     parse_game_level(game_level)

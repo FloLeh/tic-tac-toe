@@ -11,14 +11,16 @@ class Human
   end
 
   def get_spot(board)
-    puts "Enter [0-8]:\n"
+    puts "Enter [0-8]:"
     spot = gets.chomp
     spot = spot.to_i if from_zero_to_eight?(spot)
+    puts
 
     while !spot.is_a?(Integer) || board.chosen_spot?(spot)
-      puts "\nYou entered '#{spot}'. Enter [0-8]:\n"
+      puts "\nYou entered '#{spot}'. Enter [0-8]:"
       spot = gets.chomp
       spot = spot.to_i if from_zero_to_eight?(spot)
+      puts
     end
 
     spot
