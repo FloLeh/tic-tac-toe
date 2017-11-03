@@ -1,4 +1,4 @@
-# Tic Tac Toe for Love Mondays
+# Tic Tac Toe
 
 ## How it works
 
