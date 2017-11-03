@@ -21,13 +21,13 @@ class Game
     game_type = choose_game_type
 
     case game_type
-    when :cc
+    when :computer_vs_computer
       @player1 = Computer.new('O')
       @player2 = Computer.new('X')
-    when :hh
+    when :human_vs_human
       @player1 = Human.new('O')
       @player2 = Human.new('X')
-    when :hc
+    when :human_vs_computer
       @player1 = Human.new('O')
       @player2 = Computer.new('X', choose_game_level)
     end

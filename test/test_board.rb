@@ -12,4 +12,34 @@ class TestBoard < Test::Unit::TestCase
     board.choose_spot(2, 'X')
     assert_equal('X', board.spots[2])
   end
+
+  def test_game_over
+    board = Board.new
+    assert_equal(board.game_over?, false)
+    board.choose_spot(0, 'X')
+    board.choose_spot(1, 'X')
+    board.choose_spot(2, 'X')
+    assert_equal(board.game_over?, true)
+  end
+
+  def test_tie
+    board = Board.new
+    assert_equal(board.tie?, false)
+    print_all_board_to_tie(board)
+    assert_equal(board.tie?, true)
+  end
+
+  private
+
+  def print_all_board_to_tie(board)
+    board.choose_spot(0, 'X')
+    board.choose_spot(1, 'O')
+    board.choose_spot(2, 'X')
+    board.choose_spot(3, 'O')
+    board.choose_spot(4, 'X')
+    board.choose_spot(5, 'O')
+    board.choose_spot(6, 'X')
+    board.choose_spot(7, 'O')
+    board.choose_spot(8, 'X')
+  end
 end
