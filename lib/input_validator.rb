@@ -18,7 +18,7 @@ module InputValidator
       puts
     end
 
-    game_type.to_sym
+    parse_game_type(game_type)
   end
 
   def choose_game_level
@@ -53,6 +53,14 @@ module InputValidator
     game_level != '0' &&
     game_level != '1' &&
     game_level != '2'
+  end
+
+  def parse_game_type(type)
+    {
+      'cc' => :computer_vs_computer,
+      'hh' => :human_vs_human,
+      'hc' => :human_vs_computer
+    }[type]
   end
 
   def parse_game_level(level)
