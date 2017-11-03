@@ -26,11 +26,11 @@ class Game
       @player1 = Computer.new('O')
       @player2 = Computer.new('X')
       computer_vs_computer_game
-    when :pp
+    when :hh
       @player1 = Human.new('O')
       @player2 = Human.new('X')
       player_vs_player_game
-    when :cp
+    when :hc
       @player1 = Human.new('O')
       @player2 = Computer.new('X')
       computer_vs_player_game
