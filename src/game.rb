@@ -1,31 +1,38 @@
 require_relative 'board'
-require_relative '../lib/board_spot_management'
+require_relative 'players/human'
+require_relative 'players/computer'
 require_relative '../lib/input_validator'
 
 class Game
-  include BoardSpotManagement
   include InputValidator
 
-  attr_reader :board
+  attr_reader :board, :player1, :player2
 
-  PLAYER_1 = 'O'
-  PLAYER_2 = 'X'
+  def self.start
+    new.start
+  end
 
   def initialize
     @board = Board.new
   end
 
-  def start_game
+  def start
     puts "Let the game begin"
     game_type = choose_game_type
-    print_current_board_state
+    board.print_current_board_state
 
     case game_type
     when :cc
+      @player1 = Computer.new('O')
+      @player2 = Computer.new('X')
       computer_vs_computer_game
-    when :pp
+    when :hh
+      @player1 = Human.new('O')
+      @player2 = Human.new('X')
       player_vs_player_game
-    when :cp
+    when :hc
+      @player1 = Human.new('O')
+      @player2 = Computer.new('X')
       computer_vs_player_game
     end
 
@@ -33,80 +40,26 @@ class Game
   end
 
   def computer_vs_computer_game
-    until game_over? || tie?
-      choose_computer_spot(PLAYER_1)
-      choose_computer_spot(PLAYER_2) if !game_over? && !tie?
-      print_current_board_state
+    until board.game_over? || board.tie?
+      player1.choose_computer_spot(board)
+      player2.choose_computer_spot(board) if !board.game_over? && !board.tie?
+      board.print_current_board_state
     end
   end
 
   def player_vs_player_game
-    until game_over? || tie?
-      choose_player_spot(PLAYER_1)
-      choose_player_spot(PLAYER_2) if !game_over? && !tie?
-      print_current_board_state
+    until board.game_over? || board.tie?
+      player1.choose_player_spot(board)
+      player2.choose_player_spot(board) if !board.game_over? && !board.tie?
+      board.print_current_board_state
     end
   end
 
   def computer_vs_player_game
-    until game_over? || tie?
-      choose_player_spot(PLAYER_1)
-      choose_computer_spot(PLAYER_2) if !game_over? && !tie?
-      print_current_board_state
+    until board.game_over? || board.tie?
+      player1.choose_player_spot(board)
+      player2.choose_computer_spot(board) if !board.game_over? && !board.tie?
+      board.print_current_board_state
     end
-  end
-
-  def choose_player_spot(player)
-    spot = get_spot_from_player
-    board.choose_spot(spot, player)
-  end
-
-  def choose_computer_spot(player)
-    spot = nil
-    until spot
-      if board_spots[4] == '4'
-        spot = 4
-        board.choose_spot(spot, player)
-      else
-        spot = get_best_move(player)
-        if not_chosen_spot?(spot)
-          board.choose_spot(spot, player)
-        else
-          spot = nil
-        end
-      end
-    end
-  end
-
-  def get_best_move(next_player, depth = 0, best_score = {})
-    available_spaces = []
-    best_move = nil
-
-    board_spots.each do |s|
-      available_spaces << s if s != 'X' && s != 'O'
-    end
-
-    available_spaces.each do |as|
-      board_spots[as.to_i] = PLAYER_1
-      if game_over?
-        best_move = as.to_i
-        board_spots[as.to_i] = as
-        return best_move
-      else
-        board_spots[as.to_i] = PLAYER_2
-        if game_over?
-          best_move = as.to_i
-          board_spots[as.to_i] = as
-          return best_move
-        else
-          board_spots[as.to_i] = as
-        end
-      end
-    end
-
-    return best_move if best_move
-
-    n = rand(0..available_spaces.count)
-    available_spaces[n].to_i
   end
 end
