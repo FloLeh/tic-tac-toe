@@ -32,7 +32,7 @@ class Game
       player_vs_player_game
     when :hc
       @player1 = Human.new('O')
-      @player2 = Computer.new('X')
+      @player2 = Computer.new('X', choose_game_level)
       computer_vs_player_game
     end
 
@@ -41,24 +41,24 @@ class Game
 
   def computer_vs_computer_game
     until board.game_over? || board.tie?
-      player1.choose_computer_spot(board)
-      player2.choose_computer_spot(board) if !board.game_over? && !board.tie?
+      player1.choose_spot(board)
+      player2.choose_spot(board) if !board.game_over? && !board.tie?
       board.print_current_board_state
     end
   end
 
   def player_vs_player_game
     until board.game_over? || board.tie?
-      player1.choose_player_spot(board)
-      player2.choose_player_spot(board) if !board.game_over? && !board.tie?
+      player1.choose_spot(board)
+      player2.choose_spot(board) if !board.game_over? && !board.tie?
       board.print_current_board_state
     end
   end
 
   def computer_vs_player_game
     until board.game_over? || board.tie?
-      player1.choose_player_spot(board)
-      player2.choose_computer_spot(board) if !board.game_over? && !board.tie?
+      player1.choose_spot(board)
+      player2.choose_spot(board) if !board.game_over? && !board.tie?
       board.print_current_board_state
     end
   end

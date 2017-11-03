@@ -1,7 +1,11 @@
-require_relative 'player'
+class Human
+  attr_reader :mark
 
-class Human < Player
-  def choose_player_spot(board)
+  def initialize(mark)
+    @mark = mark
+  end
+
+  def choose_spot(board)
     spot = get_spot(board)
     board.choose_spot(spot, mark)
   end

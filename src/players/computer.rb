@@ -1,7 +1,48 @@
-require_relative 'player'
+class Computer
+  attr_reader :mark, :game_level
 
-class Computer < Player
-  def choose_computer_spot(board)
+  def initialize(mark, game_level = :hard)
+    @mark = mark
+    @game_level = game_level
+  end
+
+  def choose_spot(board)
+    send("#{game_level}_game", board)
+  end
+
+  private
+
+  def easy_game(board)
+    available_spots = board.spots.select { |s| s != 'X' && s != 'O' }
+    random_number = rand(0..available_spots.count)
+    random_spot = available_spots[random_number].to_i
+
+    while board.chosen_spot?(random_spot)
+      random_number = rand(0..available_spots.count)
+      random_spot = available_spots[random_number].to_i
+    end
+
+    board.choose_spot(random_spot, mark)
+  end
+
+  def medium_game(board)
+    spot = nil
+    until spot
+      if board.spots[4] == '4'
+        spot = 4
+        board.choose_spot(spot, mark)
+      else
+        spot = get_spot(board)
+        if board.not_chosen_spot?(spot)
+          board.choose_spot(spot, mark)
+        else
+          spot = nil
+        end
+      end
+    end
+  end
+
+  def hard_game(board)
     spot = nil
     until spot
       if board.spots[4] == '4'
@@ -45,8 +86,6 @@ class Computer < Player
     n = rand(0..available_spaces.count)
     available_spaces[n].to_i
   end
-
-  private
 
   def other_player_mark
     mark == 'X' ? 'O' : 'X'
