@@ -1,4 +1,8 @@
+require_relative '../lib/board_spot_management'
+
 class Board
+  include BoardSpotManagement
+
   attr_reader :spots
 
   def initialize

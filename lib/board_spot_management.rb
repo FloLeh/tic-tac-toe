@@ -29,6 +29,6 @@ module BoardSpotManagement
   private
 
   def board_spots
-    board.spots
+    spots
   end
 end
